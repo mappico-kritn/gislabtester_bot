@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cors());
 app.use(morgan('combined'))
-app.get('/webhook', (req, res) => {
+app.post('/webhook', (req, res) => {
     res.sendStatus(200);
 });
 app.listen(port);
