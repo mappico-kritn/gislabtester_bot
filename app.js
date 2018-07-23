@@ -11,6 +11,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cors());
 app.use(morgan('combined'))
-app.get('/webhook', (req, res) => res.sendStatus(200))
+app.post('/webhook', (req, res) => res.sendStatus(200))
 app.listen(port);
 console.log('Server is listening on ' + port);
