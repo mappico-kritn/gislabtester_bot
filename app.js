@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const request = require('request');
 const app = express()
 const port = process.env.PORT || 4000
+const r = require("rethinkdb");
 const rdb = 'iw';
 const rhost = 'iw.mappico.co.th';
 const rport = 28015;
