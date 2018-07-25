@@ -92,7 +92,7 @@ r.connect({
                         if (user.length > 0) {
                             //console.log(user.length)
                             for (let i = 0; i < user.length; i++) {
-                                alert(user[i], id, name, lat, lng, dt);
+                                alert(user[i], id, area_name, lat, lng, dt);
                                 //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
                             }
                         }
