@@ -78,16 +78,21 @@ r.connect({
                 } else {
                     //console.log(state)
                     if (results.new_val != null) {
+                        // console.log(results.new_val);
                         let id = JSON.stringify(results.new_val.id);
+                        // console.log(id);
                         let area_name = JSON.stringify(results.new_val.polygon.properties.name);
+                        // console.log(area_name);
                         let lat = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[1]));
+                        // console.log(lat);
                         let lng = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[0]));
+                        // console.log(lng);
                         let dt = JSON.stringify(results.new_val.timestamp);
                         // let u = JSON.stringify(results.new_val.user);
                         if (user.length > 0) {
                             //console.log(user.length)
                             for (let i = 0; i < user.length; i++) {
-                                alert(user[i], id, name, lat, lng, u);
+                                alert(user[i], id, name, lat, lng, dt);
                                 //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
                             }
                         }
@@ -121,8 +126,8 @@ function reply(reply_token, msg) {
     });
 }
 
-function alert(reply_token, id, name, lat, lng, user) {
-    console.log(reply_token + id + name + lat + lng + user)
+function alert(reply_token, id, name, lat, lng, dt) {
+    console.log(reply_token + id + name + lat + lng + dt)
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
@@ -131,7 +136,7 @@ function alert(reply_token, id, name, lat, lng, user) {
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": id + ": get in " + name,
+            "title": id + ": get in " + name + " at " + dt,
             "address": lat + "," + lng,
             "latitude": lat,
             "longitude": lng
