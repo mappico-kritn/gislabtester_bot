@@ -674,6 +674,7 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
             console.log(`Error: ${err}`);
         }
         console.log('status = ' + res.statusCode);
+        console.log('message: ' + res.statusMessage);
     });
 }
 
