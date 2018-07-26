@@ -660,7 +660,7 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": carno + ": leave " + name + ' in: ' + intime + ', out: ' + outtime + company + ' ' + driver + ' ' + officer,
+            "title": carno + ": leave " + name + '\r\n In: ' + intime + '\r\n, Out: ' + outtime + '\r\n Company: ' + company + '\r\n Driver: ' + driver + '\r\n Officer: ' + officer,
             "address": lat + ", " + lng,
             "latitude": lat,
             "longitude": lng
@@ -675,7 +675,6 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
             console.log(`Error: ${err}`);
         }
         console.log('status = ' + res.statusCode);
-        console.log('message: ' + res.statusMessage);
     });
 }
 
