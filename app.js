@@ -363,7 +363,7 @@ function handleText(message, replyToken, source) {
             );
         case 'resume':
                 user.push(source.userId);
-                return client.replyText(replyToken, 'Resumeing...');
+                return replyText(replyToken, 'Resumeing...');
         case 'pause':
                 for (var i = user.length - 1; i >= 0; i--) {
                     if (user[i] === source.userId) {
@@ -371,7 +371,7 @@ function handleText(message, replyToken, source) {
                         console.log('line54' + user)
                     }
                 }
-                return client.replyText(replyToken, 'Paused!');
+                return replyText(replyToken, 'Paused!');
         case 'bye':
             switch (source.type) {
                 case 'user':
