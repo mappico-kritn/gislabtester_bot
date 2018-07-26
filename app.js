@@ -557,7 +557,7 @@ r.connect({
     });
 
     //Out polygon
-    r.table('OutAlert').changes().run(conn, function (err, cursor) {
+    r.table('outAlert').changes().run(conn, function (err, cursor) {
         if (err) {
             console.log(err)
         } else {
