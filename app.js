@@ -622,8 +622,9 @@ r.connect({
     });
 });
 
-function inAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, officer) {
-    console.log(reply_token + id + name + lat + lng + dt)
+function inAlert(reply_token, id, name, lat, lng, intime, carno, company, driver, officer) {
+    console.log(reply_token + id + name + lat + lng + intime);
+    let dt = toTimeZone(intime, 'Asia/Bangkok');
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
