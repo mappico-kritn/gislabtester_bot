@@ -611,6 +611,7 @@ r.connect({
                             };
                             console.log(mlc);
                             let outuser = user;
+                            console.log(outuser);
                             if (outuser.length > 0) {
                                 //console.log(user.length)
                                 for (let i = 0; i < outuser.length; i++) {
