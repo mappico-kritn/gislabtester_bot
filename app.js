@@ -662,7 +662,7 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": carno + ": leave " + name + '\r\n In: ' + intime + '\r\n, Out: ' + outtime + '\r\n Company: ' + company + '\r\n Driver: ' + driver + '\r\n Officer: ' + officer,
+            "title": carno + ": leave " + name + ' In: ' + intime + ', Out: ' + outtime + ' Company: ' + company + ' Driver: ' + driver + ' Officer: ' + officer,
             "address": lat + ", " + lng,
             "latitude": lat,
             "longitude": lng
