@@ -494,7 +494,6 @@ r.connect({
     db: rdb
 }).then(function (conn) {
     r.table('inAlert').changes().run(conn, function (err, cursor) {
-
         if (err) {
             console.log(err)
         } else {
@@ -503,6 +502,7 @@ r.connect({
                     console.log(err);
                 } else {
                     //console.log(state)
+                    console.log('Test test test!!!');
                     if (results.new_val != null) {
                         // console.log(results.new_val);
                         let id = JSON.stringify(results.new_val.id);
