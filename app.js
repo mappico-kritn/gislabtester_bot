@@ -577,10 +577,10 @@ r.connect({
                         // console.log(lat);
                         let lng = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[0]));
                         // console.log(lng);
-                        let intime = results.new_val.timestamp;
+                        let intime = results.new_val.in;
                         console.log(intime);
                         intime = toTimeZone(intime, 'Asia/Bangkok');
-                        let outtime = results.new_val.timestamp;
+                        let outtime = results.new_val.out;
                         console.log(outtime);
                         outtime = toTimeZone(outtime, 'Asia/Bangkok');
                         // let u = JSON.stringify(results.new_val.user);
