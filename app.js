@@ -539,7 +539,7 @@ r.connect({
                                 'driver': driver,
                                 'officer': officer
                             };
-                            // console.log(mlc);
+                            console.log(mlc);
                             if (user.length > 0) {
                                 //console.log(user.length)
                                 for (let i = 0; i < user.length; i++) {
