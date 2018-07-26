@@ -363,7 +363,7 @@ function handleText(message, replyToken, source) {
             );
         case 'resume':
                 user.push(source.userId);
-                return replyText(replyToken, 'Resumeing...');
+                return replyText(replyToken, 'Resumed');
         case 'pause':
                 for (var i = user.length - 1; i >= 0; i--) {
                     if (user[i] === source.userId) {
@@ -533,7 +533,7 @@ r.connect({
                                 // console.log('"' + uid + '" car not found!');
                             }
                             var mlc = {
-                                'id': uid,
+                                'id': id,
                                 'carno': carplate,
                                 'company': company,
                                 'driver': driver,
