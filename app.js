@@ -371,12 +371,9 @@ function handleText(message, replyToken, source) {
                 }
             );
         case 'resume':
-            {
                 user.push(source.userId);
                 return client.replyText(replyToken, 'Resumeing...');
-            }
         case 'pause':
-            {
                 for (var i = user.length - 1; i >= 0; i--) {
                     if (user[i] === source.userId) {
                         user.splice(i, 1);
@@ -384,7 +381,6 @@ function handleText(message, replyToken, source) {
                     }
                 }
                 return client.replyText(replyToken, 'Paused!');
-            }
         case 'bye':
             switch (source.type) {
                 case 'user':
