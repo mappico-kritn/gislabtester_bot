@@ -515,13 +515,39 @@ r.connect({
                         // console.log(lng);
                         let dt = JSON.stringify(results.new_val.timestamp);
                         // let u = JSON.stringify(results.new_val.user);
-                        if (user.length > 0) {
-                            //console.log(user.length)
-                            for (let i = 0; i < user.length; i++) {
-                                alert(user[i], id, area_name, lat, lng, dt);
-                                //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
+
+                        r.db(rdb).table('cars').get(id).pluck('car_plate', 'company_name', 'driver_name', 'officer_name', 'car_status').run(conn, function (err, icursor) {
+                            var carplate = id;
+                            var carstatus = 'red';
+                            var company = 'N/A';
+                            var driver = 'N/A';
+                            var officer = 'N/A';
+                            if (icursor != null || icursor != undefined) {
+                                carstatus = icursor.car_status;
+                                company = icursor.company_name;
+                                driver = icursor.driver_name;
+                                officer = icursor.officer_name;
+                                carplate = icursor.car_plate;
+                            } else {
+    
+                                // console.log('"' + uid + '" car not found!');
                             }
-                        }
+                            var mlc = {
+                                'id': uid,
+                                'carno': carplate,
+                                'company': company,
+                                'driver': driver,
+                                'officer': officer
+                            };
+                            // console.log(mlc);
+                            if (user.length > 0) {
+                                //console.log(user.length)
+                                for (let i = 0; i < user.length; i++) {
+                                    alert(user[i], id, area_name, lat, lng, dt, mlc.carno, mlc.company, mlc.driver, mlc.officer);
+                                    //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
+                                }
+                            }
+                        });
                     }
                 }
             });
@@ -529,7 +555,7 @@ r.connect({
     });
 });
 
-function alert(reply_token, id, name, lat, lng, dt) {
+function alert(reply_token, id, name, lat, lng, dt, carno, company, driver, officer) {
     console.log(reply_token + id + name + lat + lng + dt)
     let headers = {
         'Content-Type': 'application/json',
@@ -539,7 +565,7 @@ function alert(reply_token, id, name, lat, lng, dt) {
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": id + ": get in " + name + " at " + dt,
+            "title": carno + ": arrived " + name + ' ' + dt + ' ' + company + ' ' + driver + ' ' + officer,
             "address": lat + "," + lng,
             "latitude": lat,
             "longitude": lng
