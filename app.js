@@ -504,7 +504,7 @@ r.connect({
                     console.log(err);
                 } else {
                     //console.log(state)
-                    console.log('Test test test!!!');
+                    console.log('Test In alert!!!');
                     if (results.new_val != null) {
                         // console.log(results.new_val);
                         let id = results.new_val.id;
@@ -566,7 +566,7 @@ r.connect({
                     console.log(err);
                 } else {
                     //console.log(state)
-                    console.log('Test test test!!!');
+                    console.log('Test out alert!!!');
                     if (results.new_val != null) {
                         // console.log(results.new_val);
                         let id = results.new_val.id;
@@ -578,11 +578,11 @@ r.connect({
                         let lng = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[0]));
                         // console.log(lng);
                         let intime = results.new_val.in;
-                        console.log(intime);
                         intime = toTimeZone(intime, 'Asia/Bangkok');
+                        console.log(intime);
                         let outtime = results.new_val.out;
-                        console.log(outtime);
                         outtime = toTimeZone(outtime, 'Asia/Bangkok');
+                        console.log(outtime);
                         // let u = JSON.stringify(results.new_val.user);
 
                         r.db(rdb).table('cars').get(id).pluck('car_plate', 'company_name', 'driver_name', 'officer_name', 'car_status').run(conn, function (err, icursor) {
@@ -609,10 +609,11 @@ r.connect({
                                 'officer': officer
                             };
                             console.log(mlc);
-                            if (user.length > 0) {
+                            let outuser = user;
+                            if (outuser.length > 0) {
                                 //console.log(user.length)
-                                for (let i = 0; i < user.length; i++) {
-                                    outAlert(user[i], id, area_name, lat, lng, intime, outtime, mlc.carno, mlc.company, mlc.driver, mlc.officer);
+                                for (let i = 0; i < outuser.length; i++) {
+                                    outAlert(outuser[i], id, area_name, lat, lng, intime, outtime, mlc.carno, mlc.company, mlc.driver, mlc.officer);
                                     //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
                                 }
                             }
@@ -650,7 +651,7 @@ function inAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, of
 }
 
 function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, company, driver, officer) {
-    console.log(reply_token + id + name + lat + lng + intime + outtime)
+    console.log(reply_token + id + name + lat + lng + intime + outtime + carno + company + officer);
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
@@ -659,7 +660,7 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": carno + ": arrived at " + name + ' in: ' + intime + ', out: ' + outtime + company + ' ' + driver + ' ' + officer,
+            "title": carno + ": leave " + name + ' in: ' + intime + ', out: ' + outtime + company + ' ' + driver + ' ' + officer,
             "address": lat + ", " + lng,
             "latitude": lat,
             "longitude": lng
