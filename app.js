@@ -505,7 +505,7 @@ r.connect({
                     console.log('Test test test!!!');
                     if (results.new_val != null) {
                         // console.log(results.new_val);
-                        let id = JSON.stringify(results.new_val.id);
+                        let id = results.new_val.id;
                         // console.log(id);
                         let area_name = JSON.stringify(results.new_val.polygon.properties.name);
                         // console.log(area_name);
