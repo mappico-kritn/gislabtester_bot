@@ -1,6 +1,7 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
 const request = require('request');
+const moment = require('moment-timezone');
 const r = require("rethinkdb");
 const rdb = 'iw';
 const rhost = 'iw.mappico.co.th';
@@ -493,6 +494,7 @@ r.connect({
     port: rport,
     db: rdb
 }).then(function (conn) {
+    // In polygon
     r.table('inAlert').changes().run(conn, function (err, cursor) {
         if (err) {
             console.log(err)
@@ -507,7 +509,7 @@ r.connect({
                         // console.log(results.new_val);
                         let id = results.new_val.id;
                         // console.log(id);
-                        let area_name = JSON.stringify(results.new_val.polygon.properties.name);
+                        let area_name = results.new_val.polygon.properties.name;
                         // console.log(area_name);
                         let lat = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[1]));
                         // console.log(lat);
@@ -543,7 +545,72 @@ r.connect({
                             if (user.length > 0) {
                                 //console.log(user.length)
                                 for (let i = 0; i < user.length; i++) {
-                                    alert(user[i], id, area_name, lat, lng, dt, mlc.carno, mlc.company, mlc.driver, mlc.officer);
+                                    inAlert(user[i], id, area_name, lat, lng, dt, mlc.carno, mlc.company, mlc.driver, mlc.officer);
+                                    //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    //Out polygon
+    r.table('OutAlert').changes().run(conn, function (err, cursor) {
+        if (err) {
+            console.log(err)
+        } else {
+            cursor.each(function (err, results) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    //console.log(state)
+                    console.log('Test test test!!!');
+                    if (results.new_val != null) {
+                        // console.log(results.new_val);
+                        let id = results.new_val.id;
+                        // console.log(id);
+                        let area_name = results.new_val.polygon.properties.name;
+                        // console.log(area_name);
+                        let lat = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[1]));
+                        // console.log(lat);
+                        let lng = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[0]));
+                        // console.log(lng);
+                        let intime = results.new_val.timestamp;
+                        intime = toTimeZone(intime, 'Asia/Bangkok');
+                        let outtime = results.new_val.timestamp;
+                        outtime = toTimeZone(outtime, 'Asia/Bangkok');
+                        // let u = JSON.stringify(results.new_val.user);
+
+                        r.db(rdb).table('cars').get(id).pluck('car_plate', 'company_name', 'driver_name', 'officer_name', 'car_status').run(conn, function (err, icursor) {
+                            var carplate = id;
+                            var carstatus = 'red';
+                            var company = 'N/A';
+                            var driver = 'N/A';
+                            var officer = 'N/A';
+                            if (icursor != null || icursor != undefined) {
+                                carstatus = icursor.car_status;
+                                company = icursor.company_name;
+                                driver = icursor.driver_name;
+                                officer = icursor.officer_name;
+                                carplate = icursor.car_plate;
+                            } else {
+    
+                                // console.log('"' + uid + '" car not found!');
+                            }
+                            var mlc = {
+                                'id': id,
+                                'carno': carplate,
+                                'company': company,
+                                'driver': driver,
+                                'officer': officer
+                            };
+                            console.log(mlc);
+                            if (user.length > 0) {
+                                //console.log(user.length)
+                                for (let i = 0; i < user.length; i++) {
+                                    outAlert(user[i], id, area_name, lat, lng, intime, outtime, mlc.carno, mlc.company, mlc.driver, mlc.officer);
                                     //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
                                 }
                             }
@@ -555,7 +622,7 @@ r.connect({
     });
 });
 
-function alert(reply_token, id, name, lat, lng, dt, carno, company, driver, officer) {
+function inAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, officer) {
     console.log(reply_token + id + name + lat + lng + dt)
     let headers = {
         'Content-Type': 'application/json',
@@ -565,8 +632,8 @@ function alert(reply_token, id, name, lat, lng, dt, carno, company, driver, offi
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": carno + ": arrived " + name + ' ' + dt + ' ' + company + ' ' + driver + ' ' + officer,
-            "address": lat + "," + lng,
+            "title": carno + ": arrived at " + name + ' ' + dt + ' ' + company + ' ' + driver + ' ' + officer,
+            "address": lat + ", " + lng,
             "latitude": lat,
             "longitude": lng
         }]
@@ -578,4 +645,34 @@ function alert(reply_token, id, name, lat, lng, dt, carno, company, driver, offi
     }, (err, res, body) => {
         console.log('status = ' + res.statusCode);
     });
+}
+
+function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, company, driver, officer) {
+    console.log(reply_token + id + name + lat + lng + intime + outtime)
+    let headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
+    }
+    let body = JSON.stringify({
+        to: reply_token,
+        messages: [{
+            "type": "location",
+            "title": carno + ": arrived at " + name + ' in: ' + intime + ', out: ' + outtime + company + ' ' + driver + ' ' + officer,
+            "address": lat + ", " + lng,
+            "latitude": lat,
+            "longitude": lng
+        }]
+    });
+    request.post({
+        url: 'https://api.line.me/v2/bot/message/push',
+        headers: headers,
+        body: body
+    }, (err, res, body) => {
+        console.log('status = ' + res.statusCode);
+    });
+}
+
+function toTimeZone(time, zone) {
+    var format = 'YYYY-MM-DD HH:mm:ss ZZ';
+    return moment(time, format).tz(zone).format(format);
 }
