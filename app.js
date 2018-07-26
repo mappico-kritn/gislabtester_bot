@@ -578,12 +578,7 @@ r.connect({
                         // console.log(lat);
                         let lng = parseFloat(JSON.stringify(results.new_val.polygon.properties.centroid[0]));
                         // console.log(lng);
-                        let intime = results.new_val.in;
-                        intime = toTimeZone(intime, 'Asia/Bangkok');
-                        console.log(intime);
-                        let outtime = results.new_val.out;
-                        outtime = toTimeZone(outtime, 'Asia/Bangkok');
-                        console.log(outtime);
+                        let dt = results.new_val.out;
                         // let u = JSON.stringify(results.new_val.user);
 
                         r.db(rdb).table('cars').get(id).pluck('car_plate', 'company_name', 'driver_name', 'officer_name', 'car_status').run(conn, function (err, icursor) {
@@ -652,8 +647,9 @@ function inAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, of
     });
 }
 
-function outAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, officer) {
-    console.log(reply_token + id + name + lat + lng + dt + carno + company + officer);
+function outAlert(reply_token, id, name, lat, lng, outtime, carno, company, driver, officer) {
+    console.log(reply_token + id + name + lat + lng + outtime + carno + company + officer);
+    let dt = toTimeZone(outtime, 'Asia/Bangkok');
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
