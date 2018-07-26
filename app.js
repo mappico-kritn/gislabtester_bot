@@ -609,11 +609,11 @@ r.connect({
                                 'officer': officer
                             };
                             console.log(mlc);
-                            let outuser = user;
-                            if (outuser.length > 0) {
+                            // let outuser = user;
+                            if (user.length > 0) {
                                 //console.log(user.length)
-                                for (let i = 0; i < outuser.length; i++) {
-                                    outAlert(outuser[i], id, area_name, lat, lng, intime, outtime, mlc.carno, mlc.company, mlc.driver, mlc.officer);
+                                for (let i = 0; i < user.length; i++) {
+                                    outAlert(user[i], id, area_name, lat, lng, intime, outtime, mlc.carno, mlc.company, mlc.driver, mlc.officer);
                                     //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
                                 }
                             }
