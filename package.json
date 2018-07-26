@@ -9,11 +9,13 @@
   "author": "N.V",
   "license": "ISC",
   "dependencies": {
+    "@line/bot-sdk": "^5.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
     "request": "^2.87.0",
-    "rethinkdb": "^2.3.3"
+    "rethinkdb": "^2.3.3",
+    "get-audio-duration": "0.0.1"
   }
 }
