@@ -533,7 +533,7 @@ function alert(reply_token, id, name, lat, lng, dt) {
     console.log(reply_token + id + name + lat + lng + dt)
     let headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer {${channelAccessToken}}`
+        'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
     }
     let body = JSON.stringify({
         to: reply_token,
