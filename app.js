@@ -1,8 +1,5 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const morgan = require('morgan');
 const request = require('request');
 const r = require("rethinkdb");
 const rdb = 'iw';
@@ -26,12 +23,6 @@ const app = express();
 app.listen(port, () => {
     console.log(`listening on ${port}`);
 });
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(cors());
-app.use(morgan('combined'))
 
 // create LINE SDK config from env variables
 const config = {
