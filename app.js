@@ -615,7 +615,7 @@ r.connect({
                             if (outuser.length > 0) {
                                 //console.log(user.length)
                                 for (let i = 0; i < outuser.length; i++) {
-                                    outAlert(outuser[i], id, area_name, lat, lng, intime, outtime, mlc.carno, mlc.company, mlc.driver, mlc.officer);
+                                    outAlert(outuser[i], id, area_name, lat, lng, dt, mlc.carno, mlc.company, mlc.driver, mlc.officer);
                                     //console.log(type+" "+title+" "+lat+" "+lng+" "+user)
                                 }
                             }
@@ -652,8 +652,8 @@ function inAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, of
     });
 }
 
-function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, company, driver, officer) {
-    console.log(reply_token + id + name + lat + lng + intime + outtime + carno + company + officer);
+function outAlert(reply_token, id, name, lat, lng, dt, carno, company, driver, officer) {
+    console.log(reply_token + id + name + lat + lng + dt + carno + company + officer);
     let headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer {Ixpgkyy5oDrICl/bPZjIF7RsqfKKLmtqUXcSCgFlBzwir6g62x4PFjgxyEH49ERpgsvNkPM/3YyFqTfhhy4UdKWE9l4tLcimW3Sxxdz9cuTFG/UUcn9OefiGDohdjtUKDQ4xQeevbYY8yT4T0+gZXwdB04t89/1O/w1cDnyilFU=}'
@@ -662,7 +662,7 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
         to: reply_token,
         messages: [{
             "type": "location",
-            "title": carno + ": leave " + name + ' In: ' + intime + ', Out: ' + outtime + ' Company: ' + company + ' Driver: ' + driver + ' Officer: ' + officer,
+            "title": carno + ": leave " + name + ', ' + dt + ' ' + company + ' ' + driver + ' ' + officer,
             "address": lat + ", " + lng,
             "latitude": lat,
             "longitude": lng
