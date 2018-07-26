@@ -670,6 +670,9 @@ function outAlert(reply_token, id, name, lat, lng, intime, outtime, carno, compa
         headers: headers,
         body: body
     }, (err, res, body) => {
+        if (err) {
+            console.log(`Error: ${err}`);
+        }
         console.log('status = ' + res.statusCode);
     });
 }
