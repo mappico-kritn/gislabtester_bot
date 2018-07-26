@@ -533,7 +533,7 @@ function alert(reply_token, id, name, lat, lng, dt) {
     console.log(reply_token + id + name + lat + lng + dt)
     let headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer {' + channelAccessToken + '}'
+        'Authorization': `Bearer {${channelAccessToken}}`
     }
     let body = JSON.stringify({
         to: reply_token,
