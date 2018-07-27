@@ -547,14 +547,14 @@ function handleSticker(message, replyToken) {
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Delete userId
-function removeUser(userId) {
-    let userId = userId;
+function removeUser(uId) {
+    let uid = uId;
     r.connect({
         host: rhost,
         port: rport,
         db: lbdb
     }).then(function (conn) {
-        r.table('lbUser').get(userId).delete().run(conn, function (err, cursor) {
+        r.table('lbUser').get(uid).delete().run(conn, function (err, cursor) {
             try {
                 if (err) {
                     p = conn.close();
@@ -599,15 +599,15 @@ function removeUser(userId) {
 
 
 // Insert userId
-function insertUser(userId) {
-    let userId = userId;
+function insertUser(uId) {
+    let uid = uId;
     r.connect({
         host: rhost,
         port: rport,
         db: lbdb
     }).then(function (conn) {
         r.table('lbUser').insert({
-            'id': userId
+            'id': uid
         }, {
             conflict: 'replace'
         }).run(conn, function (err, cursor) {
