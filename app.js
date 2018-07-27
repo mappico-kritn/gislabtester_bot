@@ -4,6 +4,7 @@ const request = require('request');
 const moment = require('moment-timezone');
 const r = require("rethinkdb");
 const rdb = 'iw';
+const lbdb = 'LineBot';
 const rhost = 'iw.mappico.co.th';
 const rport = 28015;
 var state = true;
@@ -40,6 +41,51 @@ const client = new line.Client(config);
 // serve static and downloaded files
 app.use('/static', express.static('static'));
 app.use('/downloaded', express.static('downloaded'));
+
+// Get subscribed user
+r.connect({
+    host: rhost,
+    port: rport,
+    db: lbdb
+}).then(function (conn) {
+    r.table('lbUser').run(conn, function (err, cursor) {
+        try {
+            cursor.toArray(function (err, item) {
+                if (err) {
+                    p = conn.close();
+                    p.then(function () {
+                        // `conn` is now closed
+                        console.log('Get userId API Connection is closed');
+                    }).error(function (err) {
+                        // process the error
+                        console.log(err);
+                    });
+                    console.log(err);
+                    return response.status(400).send(err)
+                } else {
+                    p = conn.close();
+                    p.then(function () {
+                        // `conn` is now closed
+                        console.log('Get userId API Connection is closed');
+                    }).error(function (err) {
+                        // process the error
+                        console.log(err);
+                    });
+                    console.log(item);
+                    for (var i in item) {
+                        // console.log(item[i].id);
+                        user.push(item[i].id);
+                        
+                    }
+                    console.log(user);
+                    // return response.json(item)
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});
 
 // webhook callback
 app.post('/webhook', line.middleware(config), (req, res) => {
@@ -92,6 +138,10 @@ function handleEvent(event) {
             }
 
         case 'follow':
+            if (!user.includes(event.source.userId)) {
+                user.push(event.source.userId);
+                insertUser(event.source.userId);
+            }
             return replyText(event.replyToken, 'Got followed event');
 
         case 'unfollow':
@@ -363,16 +413,20 @@ function handleText(message, replyToken, source) {
                 }
             );
         case 'resume':
+            if (!user.includes(source.userId)) {
                 user.push(source.userId);
-                return replyText(replyToken, 'Resumed');
+                insertUser(source.userId);
+            }
+            return replyText(replyToken, 'Resumed');
         case 'pause':
-                for (var i = user.length - 1; i >= 0; i--) {
-                    if (user[i] === source.userId) {
-                        user.splice(i, 1);
-                        console.log('line54' + user)
-                    }
+            for (var i = user.length - 1; i >= 0; i--) {
+                if (user[i] === source.userId) {
+                    user.splice(i, 1);
+                    removeUser(source.userId);
+                    console.log('line54' + user);
                 }
-                return replyText(replyToken, 'Paused!');
+            }
+            return replyText(replyToken, 'Paused!');
         case 'bye':
             switch (source.type) {
                 case 'user':
@@ -385,6 +439,10 @@ function handleText(message, replyToken, source) {
                         .then(() => client.leaveRoom(source.roomId));
             }
         default:
+            if (!user.includes(source.userId)) {
+                user.push(source.userId);
+                insertUser(source.userId);
+            }
             console.log(`Echo message to ${replyToken}: ${message.text}`);
             return replyText(replyToken, message.text);
     }
@@ -487,6 +545,104 @@ function handleSticker(message, replyToken) {
         }
     );
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Delete userId
+function removeUser(userId) {
+    let userId = userId;
+    r.connect({
+        host: rhost,
+        port: rport,
+        db: lbdb
+    }).then(function (conn) {
+        r.table('lbUser').get(userId).delete().run(conn, function (err, cursor) {
+            try {
+                if (err) {
+                    p = conn.close();
+                    p.then(function () {
+                        // `conn` is now closed
+                        console.log('Remove userId API Connection is closed');
+                    }).error(function (err) {
+                        // process the error
+                        console.log(err);
+                    });
+                    console.log(err);
+                } else {
+                    if (cursor.deleted == 1) {
+                        p = conn.close();
+                        p.then(function () {
+                            // `conn` is now closed
+                            console.log('Remove userId API Connection is closed');
+                        }).error(function (err) {
+                            // process the error
+                            console.log(err);
+                        });
+                        console.log(cursor);
+                    } else {
+                        p = conn.close();
+                        p.then(function () {
+                            // `conn` is now closed
+                            console.log('Remove userId API Connection is closed');
+                        }).error(function (err) {
+                            // process the error
+                            console.log(err);
+                        });
+                        console.log(cursor);
+                    }
+                    // return response.status(200).send(cursor)
+                }
+            } catch (error) {
+                console.log(`Error: ${error}`);
+            }
+        });
+    });
+}
+
+
+// Insert userId
+function insertUser(userId) {
+    let userId = userId;
+    r.connect({
+        host: rhost,
+        port: rport,
+        db: lbdb
+    }).then(function (conn) {
+        r.table('lbUser').insert({
+            'id': userId
+        }).run(conn, function (err, cursor) {
+            try {
+                if (err) {
+                    console.log('Error inserting data. (' + err + ')'); // Log error inserting data
+                    p = conn.close();
+                    p.then(function () {
+                        console.log('Insert userId API is closed'); // Log API closed
+                    }).error(function (err) {
+                        console.log(err); // Log error closing API
+                    });
+                } else {
+                    if (cursor.inserted == 1 || cursor.replaced == 1 || cursor.unchanged == 1) {
+                        console.log('Success');
+                        p = conn.close();
+                        p.then(function () {
+                            console.log('Insert userId API is closed'); // Log API closed
+                        }).error(function (err) {
+                            console.log(err); // Log error closing API
+                        });
+                    } else {
+                        console.log(cursor);
+                        p = conn.close();
+                        p.then(function () {
+                            console.log('Insert userId API is closed'); // Log API closed
+                        }).error(function (err) {
+                            console.log(err); // Log error closing API
+                        });
+                    }
+                }
+            } catch (error) {
+                console.log(`Error: ${error}`);
+            }
+        });
+    });
+}
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 r.connect({
@@ -531,7 +687,7 @@ r.connect({
                                 officer = icursor.officer_name;
                                 carplate = icursor.car_plate;
                             } else {
-    
+
                                 // console.log('"' + uid + '" car not found!');
                             }
                             var mlc = {
@@ -594,7 +750,7 @@ r.connect({
                                 officer = icursor.officer_name;
                                 carplate = icursor.car_plate;
                             } else {
-    
+
                                 // console.log('"' + uid + '" car not found!');
                             }
                             var mlc = {
