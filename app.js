@@ -75,7 +75,7 @@ r.connect({
                     for (var i in item) {
                         // console.log(item[i].id);
                         user.push(item[i].id);
-                        
+
                     }
                     console.log(user);
                     // return response.json(item)
@@ -608,6 +608,8 @@ function insertUser(userId) {
     }).then(function (conn) {
         r.table('lbUser').insert({
             'id': userId
+        }, {
+            conflict: 'replace'
         }).run(conn, function (err, cursor) {
             try {
                 if (err) {
