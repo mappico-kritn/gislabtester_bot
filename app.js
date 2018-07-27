@@ -170,7 +170,7 @@ function handleEvent(event) {
 
 function handleText(message, replyToken, source) {
     const buttonsImageURL = `${baseURL}/static/buttons/1040.jpg`;
-
+    let uid = source.userId;
     switch (message.text) {
         case 'profile':
             if (source.userId) {
@@ -415,7 +415,7 @@ function handleText(message, replyToken, source) {
         case 'resume':
             if (!user.includes(source.userId)) {
                 user.push(source.userId);
-                insertUser(source.userId);
+                insertUser(uid);
             }
             return replyText(replyToken, 'Resumed');
         case 'pause':
