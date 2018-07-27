@@ -415,7 +415,7 @@ function handleText(message, replyToken, source) {
         case 'resume':
             if (!user.includes(source.userId)) {
                 user.push(source.userId);
-                insertUser(uid);
+                insertUser(uid); // Insert into db
             }
             return replyText(replyToken, 'Resumed');
         case 'pause':
