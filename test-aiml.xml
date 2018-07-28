@@ -11,17 +11,17 @@
     </category>
     
     <category>
-      <pattern>I LIKE *</pattern>
-      <template>I like <star/> too.</template>
+        <pattern>I LIKE *</pattern>
+        <template>I like <star/> too.</template>
     </category>
 
     <category>
-      <pattern>สวัสดี</pattern>
-      <template>สวัสดีเช่นกัน</template>
+        <pattern>สวัสดี</pattern>
+        <template>สวัสดีเช่นกัน</template>
     </category>
 
     <category>
-      <pattern> *</pattern>
-      <template><star/></template>
+        <pattern>สบายดีไหม</pattern>
+        <template>สบายดี แล้วคุณล่ะ?</template>
     </category>
 </aiml>
