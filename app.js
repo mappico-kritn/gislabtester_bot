@@ -3,9 +3,9 @@ const express = require('express');
 // const bodyParser = require('body-parser');
 const request = require('request');
 const moment = require('moment-timezone');
-const AIMLInterpreter = require('aimlinterpreter');
-const aimlInterpreter = new AIMLInterpreter({ name:'GisLabBot'});
-aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml'])
+const AIMLParser = require('aimlparser');
+const aimlParser = new AIMLParser({ name:'GisLabBot'});
+aimlParser.loadAIMLFilesIntoArray(['./test-aiml.xml'])
 const r = require("rethinkdb");
 const rdb = 'iw';
 const lbdb = 'LineBot';
@@ -450,7 +450,10 @@ function handleText(message, replyToken, source) {
                 insertUser(source.userId);
             }
             console.log(`Echo message to ${replyToken}: ${message.text}`);
-            aimlInterpreter.findAnswerInLoadedAIMLFiles(message.text, (answer, wildCardArray, input) => {
+            // aimlInterpreter.findAnswerInLoadedAIMLFiles(message.text, (answer, wildCardArray, input) => {
+            //     return replyText(replyToken, answer);
+            // });
+            aimlParser.getResult(message.text, (answer, wildCardArray, input) => {
                 return replyText(replyToken, answer);
             });
             // return replyText(replyToken, message.text);
