@@ -1,6 +1,6 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const request = require('request');
 const moment = require('moment-timezone');
 const AIMLInterpreter = require('aimlinterpreter');
@@ -26,8 +26,8 @@ const port = process.env.PORT || 3000;
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 app.listen(port, () => {
     console.log(`listening on ${port}`);
 });
