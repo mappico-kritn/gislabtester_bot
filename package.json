@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@line/bot-sdk": "^5.0.0",
+    "aimlinterpreter": "^0.1.7",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",

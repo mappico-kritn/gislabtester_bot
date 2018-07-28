@@ -2,6 +2,9 @@ const line = require('@line/bot-sdk');
 const express = require('express');
 const request = require('request');
 const moment = require('moment-timezone');
+const AIMLInterpreter = require('aimlinterpreter');
+const aimlInterpreter = new AIMLInterpreter({ name:'GisLabBot'});
+aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml'])
 const r = require("rethinkdb");
 const rdb = 'iw';
 const lbdb = 'LineBot';
@@ -444,7 +447,10 @@ function handleText(message, replyToken, source) {
                 insertUser(source.userId);
             }
             console.log(`Echo message to ${replyToken}: ${message.text}`);
-            return replyText(replyToken, message.text);
+            aimlInterpreter.findAnswerInLoadedAIMLFiles(msg, (answer, wildCardArray, input) => {
+                return replyText(replyToken, answer);
+            });
+            // return replyText(replyToken, message.text);
     }
 }
 
@@ -762,7 +768,7 @@ r.connect({
                                 'driver': driver,
                                 'officer': officer
                             };
-                            console.log(mlc);
+                            // console.log(mlc);
                             let outuser = user;
                             console.log(outuser);
                             if (outuser.length > 0) {
