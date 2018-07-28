@@ -447,7 +447,7 @@ function handleText(message, replyToken, source) {
                 insertUser(source.userId);
             }
             console.log(`Echo message to ${replyToken}: ${message.text}`);
-            aimlInterpreter.findAnswerInLoadedAIMLFiles(msg, (answer, wildCardArray, input) => {
+            aimlInterpreter.findAnswerInLoadedAIMLFiles(message.text, (answer, wildCardArray, input) => {
                 return replyText(replyToken, answer);
             });
             // return replyText(replyToken, message.text);
