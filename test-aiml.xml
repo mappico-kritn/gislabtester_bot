@@ -21,7 +21,7 @@
     </category>
 
     <category>
-      <pattern>*</pattern>
+      <pattern> *</pattern>
       <template><star/></template>
     </category>
 </aiml>
