@@ -27,7 +27,7 @@
 
     <category>
         <pattern>CHAT</pattern>
-        <template><srai>CHT</srai></template>
+        <template>CHT</template>
     </category>
 
     <category>
