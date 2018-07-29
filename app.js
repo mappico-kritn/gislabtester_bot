@@ -99,7 +99,7 @@ app.post('/webhook', line.middleware(config), (req, res) => {
     if (!Array.isArray(req.body.events)) {
         return res.status(500).end();
     }
-
+    res.sendStatus(200);
     // handle events separately
     Promise.all(req.body.events.map(handleEvent))
         .then(() => res.end())

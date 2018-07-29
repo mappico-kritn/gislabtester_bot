@@ -37,6 +37,6 @@
 
     <category>
         <pattern>*</pattern>
-        <template>Sorry, I didn't get <star/> !</template>
+        <template>Sorry, I didn't get "<star/>" !</template>
     </category>
 </aiml>
