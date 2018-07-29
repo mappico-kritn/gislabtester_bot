@@ -5,7 +5,7 @@ const request = require('request');
 const moment = require('moment-timezone');
 const AIMLParser = require('aimlparser');
 const aimlParser = new AIMLParser({ name:'GisLabBot'});
-aimlParser.load(['./test-aiml.xml']);
+aimlParser.load(['./test-aiml.xml', './date.aiml.xml']);
 const r = require("rethinkdb");
 const rdb = 'iw';
 const lbdb = 'LineBot';
