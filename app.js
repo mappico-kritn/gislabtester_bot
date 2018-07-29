@@ -1,3 +1,5 @@
+require('newrelic');
+
 const line = require('@line/bot-sdk');
 const express = require('express');
 // const bodyParser = require('body-parser');
