@@ -25,25 +25,31 @@
         <template>สบายดี แล้วคุณล่ะ?</template>
     </category>
 
-    <category><pattern>SEASON</pattern>
-<template><think><set var="month"><date format="%B" jformat="MMMMMMMMM"/></set>
-</think>
-<condition var="month">
-<li><value>January</value>Winter</li>
-<li><value>February</value>Winter</li>
-<li><value>March</value>Winter</li>
-<li><value>April</value>Spring</li>
-<li><value>May</value>Spring</li>
-<li><value>June</value>Summer</li>
-<li><value>July</value>Summer</li>
-<li><value>August</value>Summer</li>
-<li><value>September</value>Fall</li>
-<li><value>October</value>Fall</li>
-<li><value>November</value>Winter</li>
-<li><value>December</value>Winter</li>
-<li>unknown</li>
-</condition></template>
-</category>
+    <category>
+        <pattern>*</pattern>
+        <template>Sorry, I didn't get that!</template>
+    </category>
+
+    <category>
+        <pattern>SEASON</pattern>
+        <template><think><set var="month"><date format="%B" jformat="MMMMMMMMM"/></set>
+            </think>
+            <condition var="month">
+                <li><value>January</value>Winter</li>
+                <li><value>February</value>Winter</li>
+                <li><value>March</value>Winter</li>
+                <li><value>April</value>Spring</li>
+                <li><value>May</value>Spring</li>
+                <li><value>June</value>Summer</li>
+                <li><value>July</value>Summer</li>
+                <li><value>August</value>Summer</li>
+                <li><value>September</value>Fall</li>
+                <li><value>October</value>Fall</li>
+                <li><value>November</value>Winter</li>
+                <li><value>December</value>Winter</li>
+                <li>unknown</li>
+            </condition></template>
+    </category>
 <category><pattern>DAY</pattern>
 <template>Today is <date format="%A" jformat="EEEEEEEEEE"/></template>
 </category>
