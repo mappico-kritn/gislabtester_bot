@@ -93,6 +93,10 @@ r.connect({
     });
 });
 
+app.get('/', (req, res) => {
+    return res.sendStatus(200);
+});
+
 // webhook callback
 app.post('/webhook', line.middleware(config), (req, res) => {
     // req.body.events should be an array of events
