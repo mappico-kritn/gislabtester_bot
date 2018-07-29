@@ -26,11 +26,6 @@
     </category>
 
     <category>
-        <pattern>*</pattern>
-        <template>Sorry, I didn't get that!</template>
-    </category>
-
-    <category>
         <pattern>SEASON</pattern>
         <template><think><set var="month"><date format="%B" jformat="MMMMMMMMM"/></set>
             </think>
@@ -243,4 +238,14 @@ DAYS</srai></template>
 <set var="days"><map name="predecessor"><get var="days"/></map></set></think> <loop/></li>
 </condition></template>
 </category>
+
+    <category>
+        <pattern>CHAT</pattern>
+        <template><srai>CHT</srai></template>
+    </category>
+
+    <category>
+        <pattern>*</pattern>
+        <template>Sorry, I didn't get that!</template>
+    </category>
 </aiml>
